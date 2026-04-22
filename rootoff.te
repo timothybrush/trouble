@@ -1,0 +1,18 @@
+module restrict_root 1.0;
+
+require {
+    type unconfined_t;
+    class process transition;
+    class file { read write execute open getattr };
+    class dir { search read write };
+}
+
+# Prevent root from transitioning to unconfined_t
+dontaudit unconfined_t self:process transition;
+
+# Deny root all file access
+deny unconfined_t self:file { read write execute open getattr };
+
+# Deny root access to directories
+deny unconfined_t self:dir { search read write };
+

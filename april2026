@@ -1,0 +1,14 @@
+    1  sudo hostnamectl hostname target.example.com
+    2  exit
+    3  sudo -i
+    4  ip a
+    5  sudo poweroff
+    6  sudo -i
+    7  man crypttab
+    8  sudo -i
+    9  podman run -it nginx
+   10  podman run -d nginx
+   11  podman exec -it nginx sh
+   12  podman exec -it c3b sh
+   13  podman exec -it c3b bash
+   14  history > /tmp/april2026
