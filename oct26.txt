@@ -1,0 +1,334 @@
+    1  vim /etc/hosts
+    2  grub2-setpassword 
+    3  cd /boot/grub2/
+    4  ls
+    5  vim user.cfg 
+    6  reboo
+    7  reboot
+    8  lsblk
+    9  fdisk /dev/nvme0n2
+   10  lsblk
+   11  xxd /dev/nvme0n2p1 | less
+   12  cryptsetup luksFormat /dev/nvme0n2p1
+   13  xxd /dev/nvme0n2p1 | less
+   14  cryptsetup luksOpen /dev/nvme0n2p1 secret
+   15  ls /dev/mapper/
+   16  mkfs.xfs /dev/mapper/secret
+   17  mount /dev/mapper/secret /mnt
+   18  cp /etc/hosts /mnt
+   19  ls /mnt
+   20  vim /etc/fstab
+   21  man crypttab 
+   22  blkid 
+   23  blkid | awk '/n2p1/ { print $2 }'
+   24  blkid | awk '/n2p1/ { print $2 }' >> /etc/crypttab
+   25  vim /etc/crypttab
+   26  reboot
+   27  lsblk
+   28  history && cat /etc/crypttab
+   29  dnf update -y
+   30  systemctl stop firewalld
+   31  iptables -L
+   32  firewall-cmd --list-all
+   33  iptables -P OUTPUT DROP
+   34  iptables -P INPUT DROP
+   35  ping google.com
+   36  ping 8.8.8.8
+   37  iptables -A OUTPUT -p icmp -j ACCEPT
+   38  iptables -A OUTPUT -p tcp --dport=53 -j ACCEPT
+   39  iptables -A OUTPUT -p udp --dport=53 -j ACCEPT
+   40  ping google.com
+   41  iptables -A INPUT -m state=ESTABLISHED,RELATED -j ACCEPT
+   42  iptables -A INPUT -m state --state=ESTABLISHED,RELATED -j ACCEPT
+   43  ping google.com
+   44  history
+   45  reboot
+   46  chvt 3
+   47  cat /etc/securetty 
+   48  chvt 2
+   49  chvt 4
+   50  thando
+   51  exit
+   52  firewall-cmd
+   53  firewall-cmd --list-all
+   54  ls /usr/lib/firewalld/services/
+   55  cat /usr/lib/firewalld/services/high-availability.xml 
+   56  firewall-cmd --add-service httpd
+   57  firewall-cmd --add-service http
+   58  firewall-cmd --add-service http --permanent
+   59  firewall-cmd --list-all
+   60  firewall-cmd --add-port 123/tcp
+   61  firewall-cmd --list-all
+   62  firewall-cmd --reload
+   63  firewall-cmd --list-all
+   64  firewall-cmd --add-port 123/tcp --permanent
+   65  firewall-cmd --reload
+   66  man firewalld.richlanguage
+   67  #firewall-cmd --add-rich-rule='rule family="ipv4" source address="192.168.0.0/24" service name="ssh" log prefix="ssh" level="info" limit value="1/m" accept'
+   68  firewall-cmd --list-all
+   69  firewall-cmd --add-rich-rule='rule family="ipv4" source address="192.168.0.0/24" service name="ssh" log prefix="ssh" level="info" limit value="1/m" accept'
+   70  firewall-cmd --list-all
+   71  ip a
+   72  cd /var/log
+   73  ls -lrt
+   74  less messages 
+   75  history
+   76  cd
+   77  ldd $(which login)
+   78  ldd $(which passwd)
+   79  cd /usr/lib64/security/
+   80  ls
+   81  vim /etc/securetty
+   82  chvt 4
+   83  cd /etc/pam.d
+   84  ls
+   85  vim login 
+   86  vim system-auth 
+   87  man pam_securetty
+   88  vim login 
+   89  w
+   90  loginctl list-sessions
+   91  loginctl kill-session 6
+   92  loginctl kill-session 7
+   93  loginctl list-sessions
+   94  vim login 
+   95  chvt 3
+   96  history
+   97  ls
+   98  vim crond 
+   99  dnf list sss*
+  100  dnf install sssd
+  101  dnf install ipa-client
+  102  ls
+  103  ls /usr/lib64/security/
+  104  find / -name "sssd.conf"
+  105  vim /usr/lib64/sssd/conf/sssd.conf 
+  106  ls
+  107  vim system-auth 
+  108  useradd thando
+  109  passwd thando
+  110  mv login blogin
+  111  chvt 3
+  112  exit
+  113  cd /etc/pam.d/
+  114  ls
+  115  chvt 3
+  116  rpm -qf /etc/pam.d/login
+  117  cd /etc/pam.d
+  118  ls
+  119  mb blogin login
+  120  mv blogin login
+  121  vim other 
+  122  cd
+  123  history
+  124  journalctl
+  125  find / -name "journal.conf"
+  126  find / -name "journald.conf"
+  127  less /usr/lib/systemd/journald.conf 
+  128  cd /var/log
+  129  ls
+  130  mkdir journal
+  131  find / -name "*flush"
+  132  find / -name "*flush" | grep journ
+  133  find / -name "*flush" | grep system
+  134  reboot
+  135  cd /home/thando/
+  136  ls
+  137  ls -a
+  138  cat .bashrc 
+  139  exit
+  140  cd /var/log/journal/
+  141  ls
+  142  cd 5d157323cf69486e85ab84f989a8e755/
+  143  ls
+  144  cd
+  145  history
+  146  cd /var/log
+  147  ls
+  148  dnf install -y httpd
+  149  ls
+  150  cd httpd/
+  151  ls
+  152  cd
+  153  systemctl status rsyslog.service 
+  154  cd /etc/
+  155  ls rsys*
+  156  vim rsyslog.conf 
+  157  systemctl restart rsyslog.service 
+  158  logger HELLO FROM IBEX
+  159  systemctl restart rsyslog.service 
+  160  logger HELLO FROM IBEX
+  161  vim rsyslog.conf 
+  162  dnf install -y nmap
+  163  nmap 192.168.29.100
+  164  setenforce permissive
+  165  firewall-cmd --list-all
+  166  iptables -L
+  167  systemctl stop firewalld
+  168  logger HELLO FROM IBEX
+  169  grep HELLO /var/log/messages 
+  170  vim rsyslog.conf 
+  171  cat rsyslog.conf 
+  172  vim rsyslog.conf 
+  173  systemctl restart rsyslog
+  174  systemctl status rsyslog.service 
+  175  vim rsyslog.conf 
+  176  systemctl restart rsyslog.service 
+  177  systemctl status rsyslog.service 
+  178  logger gREETingSS from IBEX finallysystemctl status rsyslog.service 
+  179  logger gREETingSS from IBEX finally
+  180  systemctl start firewalld
+  181  setenforce enforcing
+  182  logger HEY NURUL
+  183  grep AVC /var/log/audit/audit.log 
+  184  date -d @1792509917
+  185  getenforce permissive
+  186  logger WHAT IS GOING ON
+  187  getenforce enforcing
+  188  logger WHAT IS GOING ON
+  189  logger IS SANDER IN THE HOUSE
+  190  cd
+  191  man auditctl
+  192  auditctl -w /etc/shadow -p warx -k SCHADUW
+  193  useradd theresa
+  194  grep SCHADUW /var/log/audit/audit.log 
+  195  grep theresa /var/log/audit/audit.log 
+  196  less /var/log/audit/audit.log 
+  197  history
+  198  usermod -aG wheel theresa
+  199  ls /home
+  200  su - thando
+  201  man auditctl
+  202  auditctl -a always,exit -F dir=/home/ -F uid=0 -C auid!=obj_uid
+  203  ssh theresa@localhost
+  204  passwd theresa
+  205  ssh theresa@localhost
+  206  grep bashrc /var/log/audit/audit.log 
+  207  history > /tmp/oct26.txt
+  208  ip a
+  209  history | grep iptables
+  210  systemctl stop firewalld
+  211  iptables -P OUTPUT DROP
+  212  iptables -P INPUT DROP
+  213  ping google.com
+  214  ssh student@192.168.29.100
+  215  ssh -v
+  216  ssh -vv @student@192.168.29.100
+  217  ssh -vvvv @student@192.168.29.100
+  218  ssh -vv @student@192.168.29.100
+  219  ping 192.168.29.100
+  220  dnf install -y nmap
+  221  nmap -sn 192.168.29.0/24
+  222  nmap 192.168.29.100
+  223  ip a
+  224  ip route show
+  225  ping 192.168.29.2
+  226  ping 192.168.29.1
+  227  ping 127.0.0.1
+  228  cat /etc/redhat-release 
+  229  firewall-cmd --list-all
+  230  ip a
+  231  setenforce permissibe
+  232  setenforce permissive
+  233  ping 127.0.0.1
+  234  systemctl --failed
+  235  tail /var/log/messages 
+  236  nft list ruleset
+  237  iptables -L
+  238  history
+  239  iptables -P OUTPUT ACCEPT
+  240  iptables -P INPUT ACCEPT
+  241  iptables -L
+  242  ping 127.0.0.1
+  243  ssh -vv @student@192.168.29.100
+  244  ssh student@192.168.29.100
+  245  systemctl disable --now NetworkManager
+  246  ping 127.0.0.1
+  247  ping nu.nl
+  248  history
+  249  vim /etc/hosts
+  250  dnf install -y vsftpd
+  251  strace dnf install -y zsh
+  252  cat /etc/hosts
+  253  vim /etc/hosts
+  254  dnf install -y zsh
+  255  vim /etc/nsswitch.conf 
+  256  dnf install -y zsh
+  257  vim /etc/nsswitch.conf 
+  258  vim /etc/hosts
+  259  curl google.com
+  260  ping google.com
+  261  vim /etc/nsswitch.conf 
+  262  ping google.com
+  263  ls
+  264  strace ls
+  265  netstat -rn
+  266  ss -tupnl
+  267  netstat -tulpen
+  268  nc 192.168.29.100 22
+  269  history
+  270  ls
+  271  exit
+  272  git clone https://github.com/sandervanvugt/luth
+  273  cd luth/
+  274  ./countdown 13
+  275  vim trouble.service
+  276  cp trouble.service /etc/systemd/system/
+  277  systemctl daemon-reload
+  278  reboot
+  279  cd /etc/systemd/system
+  280  vim trouble.service 
+  281  which reboot
+  282  systemctl daemon-reload
+  283  systemctl enable trouble.service 
+  284  reboot
+  285  rm /etc/crypttab 
+  286  vim /etc/fstab
+  287  dracut -f
+  288  vim /etc/default/grub
+  289  cd /boot/loader/
+  290  ls
+  291  cd entries/
+  292  ls
+  293  vim 5d157323cf69486e85ab84f989a8e755-6.12.0-277.el10.aarch64.conf 
+  294  grub2-mkconfig 
+  295  grub2-mkconfig -o /boot/grub2/grub.cfg
+  296  reboot
+  297  rm -rf /var/log/journal
+  298  cd /var/log
+  299  ls -l
+  300  less messages 
+  301  cd /etc/systemd/system
+  302  ls
+  303  cd multi-user.target.wants/
+  304  ls -l
+  305  ls -lrt
+  306  systemctl list-dependencies graphical.target
+  307  grep reboot *
+  308  vim trouble.service 
+  309  ls -lrt
+  310  rm -f trouble.service 
+  311  cd /boot/grub2/
+  312  ls
+  313  cat user.cfg 
+  314  mv user.cfg .user.cfg
+  315  reboot
+  316  lsblk
+  317  xxd /dev/nvme0n1 | less
+  318  dd if=/dev/zero of=/dev/nvme0n1 bs=1024 count=4
+  319  cd luth/
+  320  ./countdown 13
+  321  reboot
+  322  cd /boot/efi/
+  323  ls
+  324  cd EFI
+  325  ls
+  326  cd centos/
+  327  ls
+  328  ls -il grub.cfg /boot/grub/grub.cfg
+  329  ls -il grub.cfg /boot/grub2/grub.cfg
+  330  vim grub.cfg 
+  331  blkid | grep cfbd4cab-6cb0-4352-bba1-04727615619d
+  332  cd
+  333  history
+  334  history > /tmp/oct26.txt
